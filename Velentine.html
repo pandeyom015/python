@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Be My Valentine</title>
+
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial;
+            background: linear-gradient(45deg,#ff9a9e,#fad0c4);
+            height:100vh;
+            overflow:hidden;
+        }
+
+        .container {
+            background:white;
+            display:inline-block;
+            padding:40px;
+            border-radius:20px;
+            box-shadow:0 0 30px rgba(255,0,100,0.4);
+            animation: glow 2s infinite alternate;
+            margin-top:150px;
+        }
+
+        @keyframes glow {
+            from {box-shadow:0 0 20px pink;}
+            to {box-shadow:0 0 40px red;}
+        }
+
+        h1 {
+            font-size: 40px;
+            color:#ff0066;
+            animation: pop 1s ease;
+        }
+
+        @keyframes pop {
+            from{transform:scale(0);}
+            to{transform:scale(1);}
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 20px;
+            cursor: pointer;
+            position: absolute;
+            border:none;
+            border-radius:10px;
+            transition:0.3s;
+        }
+
+        #yes {
+            position: static;
+            background:linear-gradient(45deg,green,lime);
+            color:white;
+        }
+
+        #yes:hover {
+            transform:scale(1.1);
+        }
+
+        #no {
+            background:linear-gradient(45deg,red,pink);
+            color:white;
+        }
+
+        .heart {
+            position:absolute;
+            color:red;
+            font-size:20px;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% {transform:translateY(100vh);opacity:1;}
+            100% {transform:translateY(-10vh);opacity:0;}
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>Will you be my Valentine? ❤️</h1>
+<button id="yes" onclick="yesClicked()">Yes</button>
+<button id="no">No</button>
+</div>
+
+<script>
+    let noBtn = document.getElementById("no");
+
+    noBtn.addEventListener("mouseover", function () {
+
+        let x = Math.random() * window.innerWidth;
+        let y = Math.random() * window.innerHeight;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    });
+
+    function yesClicked() {
+        alert("Yayyy ❤️ I knew it!");
+    }
+
+    // Floating Hearts Animation
+    function createHeart(){
+        let heart=document.createElement("div");
+        heart.className="heart";
+        heart.innerHTML="❤️";
+        heart.style.left=Math.random()*window.innerWidth+"px";
+        heart.style.animationDuration=(Math.random()*3+3)+"s";
+        document.body.appendChild(heart);
+
+        setTimeout(()=>{heart.remove();},6000);
+    }
+    setInterval(createHeart,300);
+</script>
+
+</body>
+</html>
