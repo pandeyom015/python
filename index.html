@@ -32,27 +32,15 @@
         h1 {
             font-size: 40px;
             color: #ff0066;
-            animation: pop 1s ease;
         }
 
-        @keyframes pop {
-            from {transform: scale(0);}
-            to {transform: scale(1);}
-        }
-
-        .btn {
+        #yes {
             padding: 15px 30px;
             font-size: 18px;
             margin: 20px;
             cursor: pointer;
-            position: absolute;
             border: none;
             border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        #yes {
-            position: static;
             background: linear-gradient(45deg, green, lime);
             color: white;
         }
@@ -62,6 +50,12 @@
         }
 
         #no {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 10px;
             background: linear-gradient(45deg, red, pink);
             color: white;
             position: absolute;
@@ -80,6 +74,7 @@
             0% {transform: translateY(100vh); opacity: 1;}
             100% {transform: translateY(-10vh); opacity: 0;}
         }
+
     </style>
 </head>
 
@@ -92,34 +87,56 @@
 </div>
 
 <script>
-    var noBtn = document.getElementById("no");
 
-    noBtn.addEventListener("mouseover", function() {
-        var x = Math.random() * (window.innerWidth - 100);
-        var y = Math.random() * (window.innerHeight - 50);
+var noBtn = document.getElementById("no");
 
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    });
+document.addEventListener("mousemove", function(e){
 
-    function yesClicked() {
-        alert("Yayyy ❤️ I knew it!");
+    var rect = noBtn.getBoundingClientRect();
+
+    var btnX = rect.left + rect.width / 2;
+    var btnY = rect.top + rect.height / 2;
+
+    var distX = e.clientX - btnX;
+    var distY = e.clientY - btnY;
+
+    var distance = Math.sqrt(distX*distX + distY*distY);
+
+    if(distance < 120){
+
+        var moveX = btnX - distX;
+        var moveY = btnY - distY;
+
+        if(moveX < 0) moveX = 0;
+        if(moveY < 0) moveY = 0;
+        if(moveX > window.innerWidth - 100) moveX = window.innerWidth - 100;
+        if(moveY > window.innerHeight - 50) moveY = window.innerHeight - 50;
+
+        noBtn.style.left = moveX + "px";
+        noBtn.style.top = moveY + "px";
     }
+});
 
-    function createHeart() {
-        var heart = document.createElement("div");
-        heart.className = "heart";
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * window.innerWidth + "px";
-        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        document.body.appendChild(heart);
+function yesClicked(){
+    alert("Yayyy ❤️ I knew it!");
+}
 
-        setTimeout(function() {
-            heart.remove();
-        }, 6000);
-    }
+// Floating hearts
+function createHeart(){
+    var heart=document.createElement("div");
+    heart.className="heart";
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*window.innerWidth+"px";
+    heart.style.animationDuration=(Math.random()*3+3)+"s";
+    document.body.appendChild(heart);
 
-    setInterval(createHeart, 300);
+    setTimeout(function(){
+        heart.remove();
+    },6000);
+}
+
+setInterval(createHeart,300);
+
 </script>
 
 </body>
