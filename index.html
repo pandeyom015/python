@@ -21,7 +21,6 @@
             box-shadow: 0 0 30px rgba(255,0,100,0.4);
             animation: glow 2s infinite alternate;
             margin-top: 150px;
-            position: relative;
         }
 
         @keyframes glow {
@@ -45,10 +44,6 @@
             color: white;
         }
 
-        #yes:hover {
-            transform: scale(1.1);
-        }
-
         #no {
             padding: 15px 30px;
             font-size: 18px;
@@ -58,21 +53,22 @@
             border-radius: 10px;
             background: linear-gradient(45deg, red, pink);
             color: white;
-            position: absolute;
-            top: 80px;
-            left: 150px;
+            position: fixed;
+            left: 200px;
+            top: 200px;
+            transition: 0.15s;
         }
 
         .heart {
-            position: absolute;
-            color: red;
-            font-size: 20px;
+            position:absolute;
+            color:red;
+            font-size:20px;
             animation: float 6s linear infinite;
         }
 
         @keyframes float {
-            0% {transform: translateY(100vh); opacity: 1;}
-            100% {transform: translateY(-10vh); opacity: 0;}
+            0% {transform:translateY(100vh);opacity:1;}
+            100% {transform:translateY(-10vh);opacity:0;}
         }
 
     </style>
@@ -94,23 +90,21 @@ document.addEventListener("mousemove", function(e){
 
     var rect = noBtn.getBoundingClientRect();
 
-    var btnX = rect.left + rect.width / 2;
-    var btnY = rect.top + rect.height / 2;
+    var btnX = rect.left + rect.width/2;
+    var btnY = rect.top + rect.height/2;
 
     var distX = e.clientX - btnX;
     var distY = e.clientY - btnY;
 
     var distance = Math.sqrt(distX*distX + distY*distY);
 
-    if(distance < 120){
+    if(distance < 150){
 
         var moveX = btnX - distX;
         var moveY = btnY - distY;
 
-        if(moveX < 0) moveX = 0;
-        if(moveY < 0) moveY = 0;
-        if(moveX > window.innerWidth - 100) moveX = window.innerWidth - 100;
-        if(moveY > window.innerHeight - 50) moveY = window.innerHeight - 50;
+        moveX = Math.max(0, Math.min(window.innerWidth - rect.width, moveX));
+        moveY = Math.max(0, Math.min(window.innerHeight - rect.height, moveY));
 
         noBtn.style.left = moveX + "px";
         noBtn.style.top = moveY + "px";
@@ -121,7 +115,7 @@ function yesClicked(){
     alert("Yayyy ❤️ I knew it!");
 }
 
-// Floating hearts
+// Hearts
 function createHeart(){
     var heart=document.createElement("div");
     heart.className="heart";
@@ -134,7 +128,6 @@ function createHeart(){
         heart.remove();
     },6000);
 }
-
 setInterval(createHeart,300);
 
 </script>
